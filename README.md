@@ -1,23 +1,38 @@
 # Lotto Studio
 
-Prototype pages for lotto pattern exploration and a Marble Roulette based lotto draw.
+Prototype service for lotto pattern exploration and a Marble Roulette based lotto draw.
+
+## Structure
+
+```text
+lotto-recommender/
+  public/                  # service root
+    index.html
+    pattern/index.html
+    marble-roulette/       # built Marble Roulette app
+    assets/
+  tools/dev-server.js      # local static server
+  vendor/
+    marble-roulette-original/ # customized source based on lazygyu/roulette
+```
 
 ## Pages
 
-- `lotto-recommender/analysis/lotto_pattern_examples.html`
-- `lotto-recommender/analysis/lotto_machine.html`
+- `lotto-recommender/public/index.html`
+- `lotto-recommender/public/pattern/index.html`
+- `lotto-recommender/public/marble-roulette/index.html`
 
 ## Local Server
 
 ```powershell
-cd lotto-recommender/analysis
-node dev-server.js
+cd lotto-recommender
+node tools/dev-server.js
 ```
 
 Then open:
 
 ```text
-http://localhost:8088/lotto_machine.html?t=machine5
+http://localhost:8088/
 ```
 
 ## Open Source Notice

@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const root = __dirname;
+const root = path.resolve(__dirname, "../public");
 const port = Number(process.env.PORT || 8088);
 
 const types = {
@@ -13,7 +13,9 @@ const types = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
-  ".svg": "image/svg+xml; charset=utf-8"
+  ".svg": "image/svg+xml; charset=utf-8",
+  ".wasm": "application/wasm",
+  ".webmanifest": "application/manifest+json; charset=utf-8"
 };
 
 function send(res, status, body, type = "text/plain; charset=utf-8") {
@@ -29,7 +31,7 @@ function send(res, status, body, type = "text/plain; charset=utf-8") {
 http.createServer((req, res) => {
   const url = new URL(req.url, `http://localhost:${port}`);
   const safePath = path.normalize(decodeURIComponent(url.pathname)).replace(/^(\.\.[/\\])+/, "");
-  const filePath = path.join(root, safePath === path.sep || safePath === "/" ? "lotto_pattern_examples.html" : safePath);
+  const filePath = path.join(root, safePath === path.sep || safePath === "/" ? "index.html" : safePath);
 
   if (!filePath.startsWith(root)) {
     send(res, 403, "Forbidden");

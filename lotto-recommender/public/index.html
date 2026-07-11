@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lotto Studio provides pattern-based lotto number play and a Marble Roulette draw experience.">
+  <title>Lotto Studio</title>
+  <link rel="stylesheet" href="./assets/css/base.css?v=20260711-service1">
+  <style>
+    .service-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+    }
+    .service-card{
+      min-height:260px;
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .service-card:before{
+      content:"";
+      position:absolute;
+      inset:auto -80px -100px auto;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,.16), transparent 64%);
+    }
+    .service-card h2{
+      margin:0;
+      font-size:30px;
+    }
+    .service-card p{
+      color:var(--muted);
+      line-height:1.7;
+      max-width:48ch;
+    }
+    .service-card a{
+      display:inline-flex;
+      margin-top:16px;
+      padding:12px 16px;
+      border-radius:14px;
+      background:linear-gradient(135deg,#ff6b6b,#ff8d62);
+      font-weight:900;
+    }
+    .notice{
+      margin-top:18px;
+      padding:16px 18px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      color:var(--muted);
+      background:rgba(255,255,255,.035);
+      line-height:1.7;
+      font-size:13px;
+    }
+    @media (max-width:760px){
+      .service-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html">Lotto Studio</a>
+      <nav class="nav" aria-label="main navigation">
+        <a href="./pattern/index.html">Pattern Studio</a>
+        <a href="./marble-roulette/index.html">Marble Roulette</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Lotto Studio</h1>
+        <p class="lede">Pattern play and Marble Roulette draw experiences for lotto number generation.</p>
+      </div>
+      <div class="meta">
+        <div class="pill">Pattern</div>
+        <div class="pill">Roulette</div>
+        <div class="pill">For fun</div>
+      </div>
+    </section>
+
+    <section class="service-grid">
+      <article class="panel service-card">
+        <h2>Pattern Studio</h2>
+        <p>Pick historical or zodiac-inspired number shapes, then drag balls on the 1-45 board to create your own pattern.</p>
+        <a href="./pattern/index.html">Open Pattern Studio</a>
+      </article>
+
+      <article class="panel service-card">
+        <h2>Marble Roulette</h2>
+        <p>Drop lotto balls into a Marble Roulette style course powered by Box2D and watch the draw unfold.</p>
+        <a href="./marble-roulette/index.html">Open Marble Roulette</a>
+      </article>
+    </section>
+
+    <p class="notice">
+      This service is for entertainment and number generation only. It does not predict or guarantee actual lottery results.
+      Marble Roulette components are based on LazyGyu's MIT-licensed project with Lotto Studio customizations.
+    </p>
+  </main>
+</body>
+</html>
