@@ -1,0 +1,28 @@
+.shell-wide{
+  max-width:1680px;
+}
+.machine-hero{
+  align-items:center;
+}
+.machine-hero .pill{
+  display:inline-flex;
+  align-items:center;
+}
+.original-roulette-panel{
+  overflow:hidden;
+  min-height:760px;
+}
+.original-roulette-frame{
+  width:100%;
+  height:calc(100vh - 230px);
+  min-height:760px;
+  display:block;
+  border:0;
+  background:#000;
+}
+@media (max-width: 720px){
+  .original-roulette-frame{
+    height:calc(100vh - 260px);
+    min-height:640px;
+  }
+}
