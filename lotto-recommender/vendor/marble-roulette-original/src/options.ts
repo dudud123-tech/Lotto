@@ -1,5 +1,7 @@
 class Options {
-  useSkills: boolean = true;
+  mode: 'lotto' | 'normal' = 'lotto';
+  drawCount: number = 6;
+  useSkills: boolean = false;
   winningRank: number = 0;
   autoRecording: boolean = true;
 }

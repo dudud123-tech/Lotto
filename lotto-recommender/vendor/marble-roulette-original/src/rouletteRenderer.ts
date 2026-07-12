@@ -4,6 +4,7 @@ import type { StageDef } from './data/maps';
 import type { GameObject } from './gameObject';
 import { KeywordService } from './keywordService';
 import type { Marble } from './marble';
+import options from './options';
 import type { ParticleManager } from './particleManager';
 import type { ColorTheme } from './types/ColorTheme';
 import type { MapEntityState } from './types/MapEntity.type';
@@ -146,7 +147,7 @@ export class RouletteRenderer {
     ctx.fill();
     ctx.fillStyle = 'rgba(255,255,255,.92)';
     ctx.beginPath();
-    ctx.arc(43, 37, 13, 0, Math.PI * 2);
+    ctx.arc(39, 34, 9, 0, Math.PI * 2);
     ctx.fill();
     ctx.fillStyle = '#fff';
     ctx.font = '900 44px Arial';
@@ -183,7 +184,7 @@ export class RouletteRenderer {
 
     uiObjects.forEach((obj) => obj.render(this.ctx, renderParameters, this._canvas.width, this._canvas.height));
     renderParameters.particleManager.render(this.ctx);
-    this.renderWinner(renderParameters);
+    this.renderResult(renderParameters);
   }
 
   private renderEntities(entities: MapEntityState[]) {
@@ -241,7 +242,7 @@ export class RouletteRenderer {
       marble.render(
         this.ctx,
         camera.zoom * initialZoom,
-        i === winnerIndex,
+        false,
         false,
         this.getMarbleImage(marble.name),
         viewPort,
@@ -250,16 +251,49 @@ export class RouletteRenderer {
     });
   }
 
-  private renderWinner({ winner, theme }: RenderParameters) {
+  private renderResult({ winner, winners, theme }: RenderParameters) {
     if (!winner) return;
     this.ctx.save();
+    const isLottoMode = options.mode === 'lotto';
+    const visibleWinners = isLottoMode ? winners.slice(0, 6) : winners;
+    const panelHeight = isLottoMode ? 190 : 168;
     this.ctx.fillStyle = theme.winnerBackground;
-    this.ctx.fillRect(this._canvas.width / 2, this._canvas.height - 168, this._canvas.width / 2, 168);
+    this.ctx.fillRect(this._canvas.width / 2, this._canvas.height - panelHeight, this._canvas.width / 2, panelHeight);
+
+    this.ctx.fillStyle = theme.winnerText;
+    this.ctx.strokeStyle = theme.winnerOutline;
+    this.ctx.textAlign = 'right';
+    this.ctx.lineWidth = 4;
+
+    if (isLottoMode) {
+      this.ctx.font = 'bold 44px sans-serif';
+      const titleX = this._canvas.width - 40;
+      const titleY = this._canvas.height - 132;
+      if (theme.winnerOutline) {
+        this.ctx.strokeText('Draw Result', titleX, titleY);
+      }
+      this.ctx.fillText('Draw Result', titleX, titleY);
+
+      const ballSize = 64;
+      const gap = 12;
+      const totalWidth = visibleWinners.length * ballSize + (visibleWinners.length - 1) * gap;
+      let x = this._canvas.width - 40 - totalWidth;
+      const y = this._canvas.height - 95;
+      visibleWinners.forEach((marble) => {
+        const marbleImage = this.getMarbleImage(marble.name);
+        if (marbleImage) {
+          this.ctx.drawImage(marbleImage, x, y, ballSize, ballSize);
+        }
+        x += ballSize + gap;
+      });
+      this.ctx.restore();
+      return;
+    }
 
     // Draw marble image or colored circle
     const marbleSize = 100;
     const marbleCenterX = this._canvas.width - marbleSize / 2 - 20;
-    const marbleCenterY = this._canvas.height - 168 / 2;
+    const marbleCenterY = this._canvas.height - panelHeight / 2;
     const marbleImage = this.getMarbleImage(winner.name);
 
     if (marbleImage) {
@@ -277,12 +311,7 @@ export class RouletteRenderer {
       this.ctx.fill();
     }
 
-    this.ctx.fillStyle = theme.winnerText;
-    this.ctx.strokeStyle = theme.winnerOutline;
-
     this.ctx.font = 'bold 48px sans-serif';
-    this.ctx.textAlign = 'right';
-    this.ctx.lineWidth = 4;
     const textRightX = marbleCenterX - marbleSize / 2 - 20;
     if (theme.winnerOutline) {
       this.ctx.strokeText('Winner', textRightX, this._canvas.height - 120);

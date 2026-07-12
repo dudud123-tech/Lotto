@@ -3,102 +3,187 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Lotto Studio provides pattern-based lotto number play and a Marble Roulette draw experience.">
   <title>Lotto Studio</title>
-  <link rel="stylesheet" href="./assets/css/base.css?v=20260711-service1">
   <style>
-    .service-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:18px;
-    }
-    .service-card{
-      min-height:260px;
-      padding:28px;
-      position:relative;
-      overflow:hidden;
-    }
-    .service-card:before{
-      content:"";
-      position:absolute;
-      inset:auto -80px -100px auto;
-      width:260px;
-      height:260px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(255,255,255,.16), transparent 64%);
-    }
-    .service-card h2{
-      margin:0;
-      font-size:30px;
-    }
-    .service-card p{
-      color:var(--muted);
-      line-height:1.7;
-      max-width:48ch;
-    }
-    .service-card a{
-      display:inline-flex;
-      margin-top:16px;
-      padding:12px 16px;
-      border-radius:14px;
-      background:linear-gradient(135deg,#ff6b6b,#ff8d62);
-      font-weight:900;
-    }
-    .notice{
-      margin-top:18px;
-      padding:16px 18px;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:18px;
-      color:var(--muted);
-      background:rgba(255,255,255,.035);
-      line-height:1.7;
-      font-size:13px;
-    }
-    @media (max-width:760px){
-      .service-grid{grid-template-columns:1fr}
-    }
+    :root{--bg:#f7f8fc;--surface:#fff;--line:#e7eaf2;--text:#172033;--muted:#667085;--primary:#7067f0;--accent:#df4db5;--shadow:0 18px 45px rgba(22,34,68,.10)}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;color:var(--text);background:var(--bg);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button{font:inherit}
+    .app-shell{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh}
+    .sidebar{position:sticky;top:0;height:100vh;padding:24px 16px;background:rgba(255,255,255,.9);border-right:1px solid var(--line);backdrop-filter:blur(14px)}
+    .brand{display:flex;align-items:center;gap:11px;margin:0 6px 28px;color:inherit;text-decoration:none;font-size:18px;font-weight:900}
+    .brand-mark{position:relative;width:24px;height:24px}.brand-mark span{position:absolute;width:8px;height:8px;border-radius:50%}
+    .brand-mark span:nth-child(1){left:8px;top:0;background:#d6a51f}.brand-mark span:nth-child(2){right:0;top:8px;background:#8d5cf6}.brand-mark span:nth-child(3){left:0;top:9px;background:#ed4f9a}.brand-mark span:nth-child(4){left:8px;bottom:0;background:#5ac7d8}
+    .side-nav{display:grid;gap:8px}.side-link{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;border:0;border-radius:10px;background:transparent;color:#667085;font-weight:800;cursor:pointer;text-align:left}
+    .side-link:hover{background:#f2f4ff;color:#4652c8}.side-link.active{background:#eef0ff;color:#5b5ce2;box-shadow:inset 0 0 0 1px #dfe2ff}.side-icon{width:22px;text-align:center;font-weight:950}
+    .side-panel{margin-top:28px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 10px 28px rgba(20,32,66,.06)}.side-panel h3{margin:0 0 12px;font-size:15px;font-weight:900}
+    .recent-draws{display:grid;gap:9px}.recent-draw{display:flex;align-items:center;justify-content:space-between;gap:4px;min-height:30px;margin:0 -6px;padding:3px 6px;border:0;border-radius:9px;background:transparent;cursor:pointer;transition:background .18s ease,box-shadow .18s ease,transform .18s ease}.recent-draw:hover{background:#f6f8ff}.recent-draw.active{background:#fff6c9;box-shadow:inset 0 0 0 1px #f5d85f}.recent-draw.new-entry{animation:recentSlideIn .34s ease-out}.recent-empty{width:25px;height:25px;border-radius:50%;border:1px dashed #d7deea;background:#f8fafc}.mini-ball{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;color:#fff;font-size:12px;font-weight:950;box-shadow:inset 0 1px 2px rgba(255,255,255,.34),0 4px 10px rgba(20,32,66,.12)}.mini-ball.range-1{background:#f0a000}.mini-ball.range-2{background:#0d6edc}.mini-ball.range-3{background:#db3355}.mini-ball.range-4{background:#7e8494}.mini-ball.range-5{background:#2fa84f}.match-stats{margin-top:14px;padding-top:12px;border-top:1px solid #eef1f6}.match-stats h4{margin:0 0 8px;font-size:13px;font-weight:900;color:#344054}.match-empty{margin:0;color:#98a2b3;font-size:12px;line-height:1.45}.rank-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.rank-chip{display:grid;gap:2px;place-items:center;min-height:42px;border-radius:9px;background:#f8fafc;border:1px solid #e8edf5}.rank-chip strong{font-size:13px;color:#172033}.rank-chip span{font-size:10px;color:#667085;font-weight:900}.best-hit{margin:8px 0 0;color:#667085;font-size:11px;line-height:1.45}@keyframes recentSlideIn{0%{opacity:0;transform:translateY(-18px)}100%{opacity:1;transform:translateY(0)}}
+    .promo{margin-top:22px;min-height:172px;padding:18px;border-radius:10px;color:#fff;background:radial-gradient(circle at 78% 82%,rgba(236,72,153,.85),transparent 28%),linear-gradient(145deg,#111c34,#0d172b);box-shadow:0 14px 38px rgba(17,24,39,.18)}
+    .promo h3{margin:0 0 9px;font-size:15px;line-height:1.35}.promo p{margin:0;color:#d8e0f2;font-size:13px;line-height:1.55}
+    .app-main{min-width:0}.top-strip{position:sticky;top:0;z-index:30;min-height:60px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:10px 28px;background:rgba(255,255,255,.88);border-bottom:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 8px 22px rgba(20,32,66,.04)}.top-latest{display:flex;align-items:center;gap:14px;min-width:0}.top-latest-title{font-size:13px;font-weight:950;color:#344054;white-space:nowrap}.top-latest-meta{font-size:12px;font-weight:800;color:#98a2b3;white-space:nowrap}.top-latest-balls{display:flex;align-items:center;gap:7px;min-width:0;flex-wrap:wrap}.top-ball{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#fff;font-size:12px;font-weight:950;box-shadow:inset 0 1px 2px rgba(255,255,255,.34),0 5px 10px rgba(20,32,66,.12)}.top-ball.bonus{background:#fff;color:#344054;border:2px dashed #cfd6e5}.top-ball.range-1{background:#f0a000}.top-ball.range-2{background:#0d6edc}.top-ball.range-3{background:#db3355}.top-ball.range-4{background:#7e8494}.top-ball.range-5{background:#2fa84f}.top-bonus-label{color:#98a2b3;font-size:12px;font-weight:900}
+    .app-hero{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;min-height:164px;padding:38px 44px;border-bottom:1px solid var(--line);background:radial-gradient(circle at 60% 92%,rgba(226,77,180,.15),transparent 19%),radial-gradient(circle at 88% 0,rgba(111,109,244,.13),transparent 22%),linear-gradient(90deg,#fff 0%,#fbf6ff 48%,#f5f9ff 100%)}
+    .app-hero>div:first-child{flex:0 0 auto;padding-top:0}
+    .app-hero h1{margin:0;font-size:42px;line-height:1.08;font-weight:950;letter-spacing:0}.app-hero h1 span{color:#8458ea}.app-hero p{margin:12px 0 0;color:#667085;font-size:15px;line-height:1.6}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end}.hero-actions[hidden]{display:none}.action{min-width:132px;padding:13px 18px;border:0;border-radius:10px;background:#fff;color:#344054;box-shadow:0 10px 25px rgba(22,34,68,.10);font-weight:900;cursor:pointer}.action.primary{color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent))}.action.active{outline:3px solid rgba(111,109,244,.16)}
+    .marble-dashboard{display:grid;gap:10px;width:min(760px,100%);margin-left:auto}.marble-dashboard[hidden]{display:none}.marble-dashboard .dash-row{display:grid;align-items:center;min-width:0}.marble-dashboard .dash-row.primary{grid-template-columns:auto minmax(260px,1fr) auto;gap:14px}.marble-dashboard .dash-row.secondary{grid-template-columns:auto minmax(260px,1fr) auto;gap:12px;padding:12px 14px;border:1px solid #e4e7f1;border-radius:16px;background:rgba(255,255,255,.72);box-shadow:0 10px 28px rgba(63,55,128,.09);backdrop-filter:blur(12px)}.marble-dashboard .mode-set,.marble-dashboard .draw-controls,.marble-dashboard .option-set{display:flex;align-items:center;gap:10px;min-width:0}.marble-dashboard button{cursor:pointer}.marble-dashboard .mode-set button{height:48px;padding:0 18px;border:1px solid #e1e4ed;border-radius:15px;background:rgba(255,255,255,.72);color:#667085;font-size:12px;font-weight:800;white-space:nowrap}.marble-dashboard .mode-set button.active{color:#fff;border-color:#8b64f5;background:linear-gradient(135deg,#7568f2,#a968eb);box-shadow:0 8px 18px rgba(112,80,230,.28),inset 0 0 0 2px rgba(255,255,255,.26)}.marble-dashboard .mode-set button:first-child:before{content:"\2726";margin-right:8px;font-size:17px}.marble-dashboard .mode-set button:last-child:before{content:"\25CE";margin-right:8px;font-size:15px}.marble-chip{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;min-width:98px;padding:0 14px;border:1px solid #e1e4ed;border-radius:15px;background:rgba(255,255,255,.72);color:#344054;font-size:0;font-weight:800}.marble-chip:before{content:attr(data-count);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#111b38;color:#fff;font-size:17px;font-weight:950}.marble-chip:after{content:attr(data-label);font-size:12px}.option-set{justify-content:flex-end}.map-field{display:flex;align-items:center;gap:9px;height:48px;min-width:230px;padding:0 12px;border:1px solid #e1e4ed;border-radius:15px;background:rgba(255,255,255,.78)}.dash-icon{width:20px;height:20px;object-fit:contain;display:block}.marble-dashboard select{min-width:0;width:100%;height:44px;border:0;outline:0;background:transparent;color:#344054;font-size:12px;font-weight:800}.marble-toggle{display:inline-flex;align-items:center;gap:7px;padding:0;border:0;background:transparent;color:#344054;font-size:12px;font-weight:900;white-space:nowrap}.marble-toggle img{width:42px;height:28px;object-fit:contain;display:block}.marble-dashboard .draw-controls{gap:12px}.marble-dashboard .icon-action{display:grid;place-items:center;width:58px;height:58px;min-width:58px;padding:10px;border:1px solid #dcdff0;border-radius:14px;background:#fff;box-shadow:0 6px 14px rgba(38,44,76,.07)}.marble-dashboard .icon-action img{width:34px;height:34px;object-fit:contain;display:block}.marble-dashboard .icon-action[data-marble-action=play]{background:#f8f6ff;border-color:#c9baff}.marble-dashboard .icon-action[data-marble-action=pause]{background:#effcf7;border-color:#b9ead2}.marble-dashboard .icon-action[data-marble-action=reset]{background:#eef7ff;border-color:#bfdbfa}.marble-dashboard .shuffle-wrap{position:relative;display:grid;justify-items:center;align-self:stretch}.marble-dashboard .icon-action[data-marble-action=shuffle]{background:#fffaf0;border-color:#f8d89d}.marble-dashboard textarea{width:100%;height:58px;min-width:0;resize:none;border:1px solid #dfe3ed;border-radius:13px;padding:9px 12px;color:#344054;background:rgba(255,255,255,.88);box-shadow:inset 0 1px 3px rgba(15,23,42,.03);font:700 12px/1.3 inherit}
+    .main-view{padding:20px 28px 28px}.main-frame{display:none;width:100%;height:calc(100vh - 236px);min-height:660px;border:0;border-radius:14px;background:#fff;box-shadow:var(--shadow)}.main-frame.active{display:block}
+    .home-view{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.home-view.hidden{display:none}.home-card{min-height:260px;padding:28px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow)}.home-card h2{margin:0 0 10px;font-size:26px}.home-card p{margin:0;color:#667085;line-height:1.65}.home-link{display:block;width:max-content;max-width:100%;padding:2px 0;border-radius:8px;cursor:pointer}.home-link:focus-visible{outline:3px solid rgba(112,103,240,.22);outline-offset:6px}.home-link:hover h2{color:#7067f0}.home-link:hover p{color:#475467}.preview-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}.preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.preview-frame{position:relative;overflow:hidden;min-height:190px;border-radius:16px;background:#050914;border:1px solid #dfe4f0;box-shadow:0 14px 30px rgba(20,32,66,.10)}.preview-frame img,.preview-frame video{display:block;width:100%;height:100%;aspect-ratio:16/10;object-fit:cover}.preview-frame video{filter:saturate(1.08) contrast(1.04)}.preview-frame img{background:#f8fafc}.preview-frame span{position:absolute;left:12px;top:12px;padding:7px 10px;border-radius:999px;background:rgba(7,13,31,.72);color:#fff;font-size:12px;font-weight:900;backdrop-filter:blur(8px)}
+    .play-stats-card{grid-column:1/-1;min-height:220px}.play-stats-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}.play-stats-card h2{margin:0;font-size:26px}.play-stats-card p{margin:8px 0 0}.play-stats-note{color:#98a2b3;font-size:12px;font-weight:800}.play-stats-summary{display:grid;grid-template-columns:1.1fr 2fr;gap:16px}.play-rate{display:grid;align-content:center;gap:8px;padding:22px;border-radius:16px;background:linear-gradient(135deg,#111b38,#3344a5);color:#fff}.play-rate strong{font-size:42px;line-height:1}.play-rate span{color:#dbe5ff;font-size:13px;font-weight:800;line-height:1.5}.play-ranks{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.play-rank{display:grid;place-items:center;gap:4px;min-height:94px;border:1px solid #e8edf5;border-radius:14px;background:#fff}.play-rank strong{font-size:25px;color:#172033}.play-rank span{font-size:12px;color:#667085;font-weight:900}.play-stats-empty{padding:22px;border:1px dashed #cfd6e5;border-radius:14px;color:#667085;background:#fafcff;font-size:14px;line-height:1.6}
+    @media (max-width:980px){.app-shell{grid-template-columns:1fr}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}.side-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.side-panel,.promo{display:none}.top-strip{align-items:flex-start;flex-direction:column}.top-latest{align-items:flex-start;flex-direction:column;gap:8px}.app-hero{padding:28px 20px;align-items:flex-start;flex-direction:column}.app-hero h1{font-size:34px}.hero-actions{justify-content:flex-start}.marble-dashboard{width:100%;margin-left:0}.marble-dashboard .dash-row.primary{grid-template-columns:1fr}.marble-dashboard .mode-set{flex-wrap:wrap}.marble-dashboard .option-set{justify-content:flex-start}.map-field{flex:1;min-width:180px}.marble-dashboard .dash-row.secondary{grid-template-columns:auto minmax(140px,1fr) auto}.marble-dashboard .icon-action{width:48px;height:48px;min-width:48px;padding:8px}.marble-dashboard .icon-action img{width:28px;height:28px}.marble-dashboard textarea{height:48px}.main-view{padding:16px}.main-frame{height:760px;min-height:760px}.home-view{grid-template-columns:1fr}.preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.preview-card-head{flex-direction:column}}
   </style>
 </head>
 <body>
-  <main class="shell">
-    <header class="topbar">
-      <a class="brand" href="./index.html">Lotto Studio</a>
-      <nav class="nav" aria-label="main navigation">
-        <a href="./pattern/index.html">Pattern Studio</a>
-        <a href="./marble-roulette/index.html">Marble Roulette</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Lotto Studio navigation">
+      <a class="brand" href="./index.html"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span>Lotto Studio</span></a>
+      <nav class="side-nav">
+        <button class="side-link active" data-view="home"><span class="side-icon">H</span><span>&#54856;</span></button>
+        <button class="side-link" data-view="pattern"><span class="side-icon">P</span><span>&#54056;&#53556; &#49828;&#53916;&#46356;&#50724;</span></button>
+        <button class="side-link" data-view="marble"><span class="side-icon">M</span><span>&#47560;&#48660; &#47344;&#47131;</span></button>
+        <button class="side-link" data-view="home"><span class="side-icon">S</span><span>&#53685;&#44228;&#48516;&#49437;(&#51456;&#48708;&#51473;)</span></button>
       </nav>
-    </header>
-
-    <section class="hero">
-      <div>
-        <h1>Lotto Studio</h1>
-        <p class="lede">Pattern play and Marble Roulette draw experiences for lotto number generation.</p>
-      </div>
-      <div class="meta">
-        <div class="pill">Pattern</div>
-        <div class="pill">Roulette</div>
-        <div class="pill">For fun</div>
-      </div>
-    </section>
-
-    <section class="service-grid">
-      <article class="panel service-card">
-        <h2>Pattern Studio</h2>
-        <p>Pick historical or zodiac-inspired number shapes, then drag balls on the 1-45 board to create your own pattern.</p>
-        <a href="./pattern/index.html">Open Pattern Studio</a>
-      </article>
-
-      <article class="panel service-card">
-        <h2>Marble Roulette</h2>
-        <p>Drop lotto balls into a Marble Roulette style course powered by Box2D and watch the draw unfold.</p>
-        <a href="./marble-roulette/index.html">Open Marble Roulette</a>
-      </article>
-    </section>
-
-    <p class="notice">
-      This service is for entertainment and number generation only. It does not predict or guarantee actual lottery results.
-      Marble Roulette components are based on LazyGyu's MIT-licensed project with Lotto Studio customizations.
-    </p>
-  </main>
+      <section class="side-panel"><h3>&#52572;&#44540; &#48264;&#54840;</h3><div class="recent-draws" id="recentDraws" aria-label="Recent lotto draw results"></div><div class="match-stats" id="matchStats" aria-label="Historical match stats"></div></section>
+      <section class="promo"><h3>&#50724;&#45720;&#51032; &#54665;&#50868;&#51012; &#46356;&#51088;&#51064;&#54616;&#49464;&#50836;!</h3><p>&#45817;&#49888;&#47564;&#51032; &#54056;&#53556;&#51004;&#47196; &#49352;&#47196;&#50868; &#54665;&#50868;&#51012; &#47564;&#46308;&#50612;&#48372;&#49464;&#50836;.</p></section>
+    </aside>
+    <main class="app-main">
+      <header class="top-strip">
+        <div class="top-latest" aria-label="Latest lotto draw">
+          <span class="top-latest-title" id="latestIntro">&#52572;&#44540; &#45817;&#52392;&#48264;&#54840;&#47484; &#48520;&#47084;&#50724;&#45716; &#51473;&#51077;&#45768;&#45796;.</span>
+          <div class="top-latest-balls" id="latestResults"></div>
+        </div>
+        <span class="top-latest-meta" id="latestUpdated"></span>
+      </header>
+      <section class="app-hero">
+        <div><h1>Lotto <span id="viewTitleAccent">Studio</span></h1><p id="viewLead">&#54056;&#53556;&#44284; &#47560;&#48660; &#47344;&#47131;&#51012; &#54616;&#45208;&#51032; &#54868;&#47732;&#50640;&#49436; &#51600;&#44200;&#48372;&#49464;&#50836;.</p></div>
+        <div class="hero-actions" id="patternModeActions" hidden><button class="action" data-catalog="pattern">&#54056;&#53556;</button><button class="action primary" data-catalog="zodiac">&#48324;&#51088;&#47532;</button></div>
+        <div class="marble-dashboard" id="marbleDashboard" hidden>
+          <div class="dash-row primary">
+            <div class="mode-set"><button data-marble-mode="lotto">Lotto Mode</button><button data-marble-mode="normal">Normal Mode</button><span class="marble-chip" id="marbleDrawLabel" data-count="6" data-label="balls">6 balls</span></div>
+            <div class="option-set"><label class="map-field"><img class="dash-icon" src="./assets/images/map_212680.png" alt=""><select id="marbleMap" aria-label="Map"></select></label><button class="marble-toggle" id="marbleRecording" type="button" aria-pressed="false"><span>Rec</span><img id="marbleRecordingIcon" src="./assets/images/toggle_off.png" alt=""></button></div>
+          </div>
+          <div class="dash-row secondary">
+            <div class="draw-controls"><button class="icon-action" data-marble-action="play" aria-label="Play"><img src="./assets/images/play_10264052.png" alt=""></button><button class="icon-action" data-marble-action="pause" aria-label="Pause"><img src="./assets/images/pause-button_4028840.png" alt=""></button><button class="icon-action" data-marble-action="reset" aria-label="Reset"><img src="./assets/images/refresh-arrow_10732256.png" alt=""></button></div>
+            <textarea id="marbleNames" aria-label="Lotto balls">1&#10;2&#10;3</textarea><div class="shuffle-wrap"><button class="icon-action" data-marble-action="shuffle" aria-label="Shuffle"><img src="./assets/images/shuffle_5467552.png" alt=""></button></div>
+          </div>
+        </div>
+      </section>
+      <section class="main-view" aria-label="MainView">
+        <div id="homeView" class="home-view">
+          <article class="home-card marble-home-card">
+            <div class="preview-card-head">
+              <div class="home-link" data-view="marble" role="button" tabindex="0"><h2>Marble Roulette</h2><p>&#47560;&#48660; &#47344;&#47131; &#53076;&#49828;&#50640;&#49436; &#47196;&#46608;&#44277;&#51060; &#50880;&#51649;&#51060;&#47728; &#52628;&#52392;&#46104;&#45716; &#44284;&#51221;&#51012; &#54869;&#51064;&#54644;&#48372;&#49464;&#50836;.</p></div>
+            </div>
+            <div class="preview-grid" aria-label="Marble Roulette preview videos">
+              <div class="preview-frame"><span>Type 1</span><video src="./assets/videos/marble_roulette_20260712210723.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+              <div class="preview-frame"><span>Type 2</span><video src="./assets/videos/marble_roulette_20260712211001.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+              <div class="preview-frame"><span>Type 3</span><video src="./assets/videos/marble_roulette_20260712211019.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+              <div class="preview-frame"><span>Type 4</span><video src="./assets/videos/marble_roulette_20260712211059.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+            </div>
+          </article>
+          <article class="home-card pattern-home-card">
+            <div class="preview-card-head">
+              <div class="home-link" data-view="pattern" role="button" tabindex="0"><h2>Pattern Studio</h2><p>&#48264;&#54840;&#54032;&#50640; &#48324;&#51088;&#47532; &#54056;&#53556;&#51012; &#48520;&#47084;&#50724;&#44256; &#44277;&#51012; &#50734;&#44200; &#45208;&#47564;&#51032; &#51312;&#54633;&#51012; &#47564;&#46308;&#50612;&#48372;&#49464;&#50836;.</p></div>
+            </div>
+            <div class="preview-grid" aria-label="Pattern Studio preview frames">
+              <div class="preview-frame"><span>&#50577;&#51088;&#47532;</span><img src="./assets/pattern-previews/A.png" alt="양자리 패턴 미리보기"></div>
+              <div class="preview-frame"><span>&#50577;&#51088;&#47532;</span><video src="./assets/pattern-previews/A_Video.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+              <div class="preview-frame"><span>&#51204;&#44040;&#51088;&#47532;</span><img src="./assets/pattern-previews/B.png" alt="전갈자리 패턴 미리보기"></div>
+              <div class="preview-frame"><span>&#51204;&#44040;&#51088;&#47532;</span><video src="./assets/pattern-previews/B_Video.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
+            </div>
+          </article>
+          <article class="home-card play-stats-card">
+            <header><div><h2>내 번호 성적표</h2><p>이 사이트에서 저장된 번호를 최신 당첨회차와 비교해 보여줍니다.</p></div><span class="play-stats-note" id="playStatsNote">이 브라우저 기준</span></header>
+            <div id="playStatsResults"></div>
+          </article>
+        </div>
+        <iframe id="mainFrame" class="main-frame" title="MainView"></iframe>
+      </section>
+    </main>
+  </div>
+  <script>
+    const frame = document.getElementById("mainFrame");
+    const homeView = document.getElementById("homeView");
+    const viewTitleAccent = document.getElementById("viewTitleAccent");
+    const viewLead = document.getElementById("viewLead");
+    const patternModeActions = document.getElementById("patternModeActions");
+    const marbleDashboard = document.getElementById("marbleDashboard");
+    const marbleNames = document.getElementById("marbleNames");
+    const marbleDrawLabel = document.getElementById("marbleDrawLabel");
+    const marbleMap = document.getElementById("marbleMap");
+    const marbleRecording = document.getElementById("marbleRecording");
+    const marbleRecordingIcon = document.getElementById("marbleRecordingIcon");
+    const recentDraws = document.getElementById("recentDraws");
+    const matchStats = document.getElementById("matchStats");
+    const latestResults = document.getElementById("latestResults");
+    const latestIntro = document.getElementById("latestIntro");
+    const latestUpdated = document.getElementById("latestUpdated");
+    const playStatsResults = document.getElementById("playStatsResults");
+    const playStatsNote = document.getElementById("playStatsNote");
+    const recentResults = [];
+    const savedPlayKey = "lottoStudioSavedPlays";
+    let savedPlays = [];
+    let latestDraw = null;
+    let lottoHistory = [];
+    let selectedRecentIndex = -1;
+    let recentJustAdded = false;
+    let activePatternCatalog = "zodiac";
+    const viewMap = {
+      home:{title:"Studio",lead:"\uD328\uD134\uACFC \uB9C8\uBE14 \uB8F0\uB81B\uC744 \uD558\uB098\uC758 \uD654\uBA74\uC5D0\uC11C \uC990\uACA8\uBCF4\uC138\uC694."},
+      pattern:{src:"./pattern/index.html",title:"Pattern",lead:"\uD328\uD134 \uB610\uB294 \uBC88\uD638\uB97C \uC120\uD0DD\uD558\uACE0, 1-45 \uBC88\uD638\uD310 \uC704\uC5D0 \uB098\uB9CC\uC758 \uB2F9\uCCA8 \uC804\uB7B5\uC744 \uADF8\uB824\uBCF4\uC138\uC694."},
+      marble:{src:"./marble-roulette/index.html",title:"Marble",lead:"\uB9C8\uBE14 \uB8F0\uB81B \uCF54\uC2A4\uC5D0\uC11C \uB85C\uB610\uACF5\uC774 \uC6C0\uC9C1\uC774\uBA70 \uCD94\uCCA8\uB418\uB294 \uACFC\uC815\uC744 \uD655\uC778\uD574\uBCF4\uC138\uC694."}
+    };
+    function setPatternCatalog(mode){activePatternCatalog=mode;document.querySelectorAll("[data-catalog]").forEach((el)=>el.classList.toggle("primary",el.dataset.catalog===mode));try{frame.contentWindow?.postMessage({type:"lotto:setCatalog",mode},"*")}catch(error){}}
+    const defaultLottoNames = Array.from({length:45},(_,index)=>String(index+1)).join("\n");
+    const defaultNormalNames = ["이승만","윤보선","박정희","최규하","전두환","노태우","김영삼","김대중","노무현","이명박","박근혜","문재인","윤석열"].join("\n");
+    function marbleDoc(){try{return frame.contentDocument}catch(error){return null}}
+    function clickMarble(selector){const doc=marbleDoc();doc?.querySelector(selector)?.click()}
+    function getBallClass(number){return number<=10?"range-1":number<=20?"range-2":number<=30?"range-3":number<=40?"range-4":"range-5"}
+    function loadSavedPlays(){try{const data=JSON.parse(localStorage.getItem(savedPlayKey)||"[]");savedPlays=Array.isArray(data)?data.filter((play)=>Array.isArray(play.numbers)&&play.numbers.length===6):[]}catch(error){savedPlays=[]}}
+    function saveSavedPlays(){try{localStorage.setItem(savedPlayKey,JSON.stringify(savedPlays.slice(0,300)))}catch(error){}}
+    function rememberPlay(numbers){const key=numbers.join(",");if(savedPlays[0]?.numbers?.join(",")===key)return;savedPlays.unshift({numbers:[...numbers],createdAt:new Date().toISOString()});savedPlays=savedPlays.slice(0,300);saveSavedPlays();renderPlayStats()}
+    function renderRecentDraws(){recentDraws.innerHTML="";for(let rowIndex=0;rowIndex<5;rowIndex++){const row=document.createElement("button");row.type="button";row.className="recent-draw";if(rowIndex===selectedRecentIndex)row.classList.add("active");if(rowIndex===0&&recentJustAdded)row.classList.add("new-entry");const result=recentResults[rowIndex];if(result){row.setAttribute("aria-label",`${result.join(", ")} 선택`);row.addEventListener("click",()=>selectRecentDraw(rowIndex));result.forEach((number)=>{const ball=document.createElement("span");ball.className=`mini-ball ${getBallClass(number)}`;ball.textContent=String(number);row.appendChild(ball)})}else{row.disabled=true;for(let slot=0;slot<6;slot++){const empty=document.createElement("span");empty.className="recent-empty";row.appendChild(empty)}}recentDraws.appendChild(row)}recentJustAdded=false}
+    function getMatchRank(selected, draw){const selectedSet=new Set(selected);const matchCount=draw.numbers.filter((number)=>selectedSet.has(number)).length;const bonusMatch=selectedSet.has(draw.bonus);if(matchCount===6)return 1;if(matchCount===5&&bonusMatch)return 2;if(matchCount===5)return 3;if(matchCount===4)return 4;if(matchCount===3)return 5;return 0}
+    function summarizeHistory(selected){const counts={1:0,2:0,3:0,4:0,5:0};let best=null;lottoHistory.forEach((draw)=>{const rank=getMatchRank(selected,draw);if(rank){counts[rank]+=1;if(!best||rank<best.rank)best={rank,round:draw.round}}});return{counts,best,total:Object.values(counts).reduce((sum,count)=>sum+count,0)}}
+    function renderPlayStats(){if(!playStatsResults)return;if(!latestDraw){playStatsResults.innerHTML='<div class="play-stats-empty">최신 당첨번호를 불러온 뒤 성적표를 계산합니다.</div>';return}if(!savedPlays.length){playStatsResults.innerHTML='<div class="play-stats-empty">패턴에서 선택 번호를 누르거나 마블 룰렛으로 번호를 뽑으면 이곳에 최신 회차 기준 성적이 쌓입니다.</div>';playStatsNote.textContent=`${latestDraw.round}회 기준`;return}const counts={1:0,2:0,3:0,4:0,5:0};savedPlays.forEach((play)=>{const rank=getMatchRank(play.numbers,latestDraw);if(rank)counts[rank]+=1});const winCount=Object.values(counts).reduce((sum,count)=>sum+count,0);const rate=savedPlays.length?((winCount/savedPlays.length)*100).toFixed(2):"0.00";playStatsNote.textContent=`${latestDraw.round}회 기준 · ${savedPlays.length}개 번호`;playStatsResults.innerHTML=`<div class="play-stats-summary"><div class="play-rate"><strong>${rate}%</strong><span>저장된 번호 중 5등 이상 비율<br>${winCount}개 / ${savedPlays.length}개</span></div><div class="play-ranks">${[1,2,3,4,5].map((rank)=>`<div class="play-rank"><strong>${counts[rank]}</strong><span>${rank}등</span></div>`).join("")}</div></div>`}
+    function renderMatchStats(){const selected=recentResults[selectedRecentIndex];if(!selected){matchStats.innerHTML='<h4>과거 당첨 비교</h4><p class="match-empty">번호를 추가하거나 최근 번호 줄을 선택하면 결과를 계산합니다.</p>';return}if(!lottoHistory.length){matchStats.innerHTML='<h4>과거 당첨 비교</h4><p class="match-empty">당첨 이력 데이터를 불러오는 중입니다.</p>';return}const summary=summarizeHistory(selected);matchStats.innerHTML=`<h4>과거 당첨 비교</h4><div class="rank-grid">${[1,2,3,4,5].map((rank)=>`<div class="rank-chip"><strong>${summary.counts[rank]}</strong><span>${rank}등</span></div>`).join("")}</div><p class="best-hit">${summary.best?`최고 기록: ${summary.best.round}회 ${summary.best.rank}등 기준`:"과거 5등 이상 기록은 없습니다."}</p>`}
+    function selectRecentDraw(index){if(!recentResults[index])return;selectedRecentIndex=index;renderRecentDraws();renderMatchStats()}
+    async function loadLottoHistory(){try{const res=await fetch("./data/lotto-history.json",{cache:"no-store"});if(!res.ok)throw new Error("lotto history not found");const data=await res.json();lottoHistory=data.results||[]}catch(error){lottoHistory=[]}renderMatchStats()}
+    function drawTopBall(number, extraClass=""){return `<span class="top-ball ${getBallClass(Number(number))} ${extraClass}">${number}</span>`}
+    function renderLatestResults(data){const results=data.results||[];if(!results.length){latestDraw=null;latestIntro.textContent="최근 당첨번호 데이터가 없습니다.";latestResults.innerHTML="";latestUpdated.textContent="";renderPlayStats();return}const latest=results[0];latestDraw=latest;latestIntro.textContent=`${latest.round}회 당첨번호`;latestUpdated.textContent=latest.date?`${latest.date} 추첨`:"";latestResults.innerHTML=`${latest.numbers.map((number)=>drawTopBall(number)).join("")}<span class="top-bonus-label">보너스</span><span class="top-ball bonus">${latest.bonus}</span>`;renderPlayStats()}
+    async function loadLatestResults(){try{const res=await fetch("./data/lotto-results.json",{cache:"no-store"});if(!res.ok)throw new Error("lotto results not found");renderLatestResults(await res.json())}catch(error){latestIntro.textContent="당첨번호 데이터를 불러오지 못했습니다.";latestResults.innerHTML="";latestUpdated.textContent="데이터 확인 필요"}}
+    function addRecentDraw(numbers){const result=[...new Set(numbers.map((number)=>Number(number)).filter((number)=>Number.isInteger(number)&&number>=1&&number<=45))].sort((a,b)=>a-b);if(result.length<6)return;const picked=result.slice(0,6);const key=picked.join(",");if(recentResults[0]?.join(",")===key){selectRecentDraw(0);rememberPlay(picked);return}recentResults.unshift(picked);recentResults.splice(5);selectedRecentIndex=0;recentJustAdded=true;rememberPlay(picked);renderRecentDraws();renderMatchStats()}
+    function attachMarbleResultListener(){const win=frame.contentWindow;if(!win?.roulette||win.__lottoRecentListenerAttached)return false;win.__lottoRecentListenerAttached=true;win.roulette.addEventListener("goal",(event)=>{const winners=event.detail?.winners||[event.detail?.winner].filter(Boolean);addRecentDraw(winners)});return true}
+    function waitForMarbleResultListener(attempt=0){if(attachMarbleResultListener()||attempt>=30)return;setTimeout(()=>waitForMarbleResultListener(attempt+1),100)}
+    function setMarbleDrawLabel(mode){const isLotto=mode==="lotto";marbleDrawLabel.dataset.count=isLotto?"6":"1";marbleDrawLabel.dataset.label=isLotto?"balls":"Winner";marbleDrawLabel.textContent=isLotto?"6 balls":"1 Winner"}
+    function setMarbleMode(mode){clickMarble(mode==="lotto"?"#modeLotto":"#modeNormal");document.querySelectorAll("[data-marble-mode]").forEach((el)=>el.classList.toggle("active",el.dataset.marbleMode===mode));setMarbleDrawLabel(mode);marbleNames.value=mode==="lotto"?defaultLottoNames:defaultNormalNames;syncMarbleNames()}
+    function syncMarbleNames(){const doc=marbleDoc();const target=doc?.querySelector("#in_names");if(!target)return;target.value=marbleNames.value;target.dispatchEvent(new Event("input",{bubbles:true}))}
+    function setRecordingVisual(checked){marbleRecording.setAttribute("aria-pressed",String(checked));marbleRecordingIcon.src=checked?"./assets/images/toggle_on.png":"./assets/images/toggle_off.png"}
+    function syncMarbleOptions(){const doc=marbleDoc();if(!doc)return false;const sourceMap=doc.querySelector("#sltMap");const maps=frame.contentWindow?.roulette?.getMaps?.()||[];if(maps.length){const selectedValue=sourceMap?.value||String(maps[0].index);marbleMap.innerHTML="";maps.forEach((map,index)=>marbleMap.add(new Option(map.title||`Map ${index+1}`,String(map.index))));marbleMap.value=selectedValue}else if(sourceMap?.options.length){const selectedValue=sourceMap.value;marbleMap.innerHTML="";[...sourceMap.options].forEach((option,index)=>{const label=option.textContent?.trim()||option.label?.trim()||`Map ${index+1}`;marbleMap.add(new Option(label,option.value))});marbleMap.value=selectedValue}const recording=doc.querySelector("#chkAutoRecording");if(recording)setRecordingVisual(recording.checked);return Boolean(maps.length||sourceMap?.options.length)}
+    function waitForMarbleOptions(attempt=0){if(syncMarbleOptions()||attempt>=30)return;setTimeout(()=>waitForMarbleOptions(attempt+1),100)}
+    function setMarbleMap(value){const doc=marbleDoc();const target=doc?.querySelector("#sltMap");if(!target)return;target.value=value;target.dispatchEvent(new Event("change",{bubbles:true}));frame.contentWindow?.roulette?.setMap?.(value)}
+    function setMarbleRecording(checked){const doc=marbleDoc();const target=doc?.querySelector("#chkAutoRecording");if(!target)return;target.checked=checked;target.dispatchEvent(new Event("change",{bubbles:true}))}
+    function tuneEmbeddedPage(){try{const doc=frame.contentDocument;if(!doc)return;let style=doc.getElementById("lotto-embedded-style");if(!style){style=doc.createElement("style");style.id="lotto-embedded-style";doc.head.appendChild(style)}const isPattern=frame.getAttribute("src")?.includes("/pattern/");const isMarble=frame.getAttribute("src")?.includes("/marble-roulette/");style.textContent=isPattern?"body{background:transparent!important;overflow:hidden!important}.topbar,.hero{display:none!important}.shell{max-width:none!important;height:100vh!important;padding:0!important;overflow:hidden!important}.layout{height:100vh!important;min-height:0!important}":isMarble?"#settings{display:none!important}.play-controls{display:none!important}body{overflow:hidden!important}":"";
+      if(isPattern)setPatternCatalog(activePatternCatalog);
+      if(isMarble){setMarbleMode(doc.querySelector("#modeNormal")?.checked?"normal":"lotto");waitForMarbleOptions();waitForMarbleResultListener()}
+    }catch(error){}}
+    function setView(view){const next=viewMap[view]||viewMap.home;viewTitleAccent.textContent=next.title;viewLead.textContent=next.lead;patternModeActions.hidden=view!=="pattern";marbleDashboard.hidden=view!=="marble";document.querySelectorAll("[data-view]").forEach((el)=>el.classList.toggle("active",el.dataset.view===view));if(view==="home"){homeView.classList.remove("hidden");frame.classList.remove("active");frame.removeAttribute("src")}else{homeView.classList.add("hidden");frame.classList.add("active");if(frame.getAttribute("src")!==next.src)frame.src=next.src}history.replaceState(null,"",`#${view}`)}
+    document.querySelectorAll("[data-view]").forEach((el)=>el.addEventListener("click",()=>setView(el.dataset.view)));
+    document.querySelectorAll(".home-link[data-view]").forEach((el)=>el.addEventListener("keydown",(event)=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();setView(el.dataset.view)}}));
+    document.querySelectorAll("[data-catalog]").forEach((el)=>el.addEventListener("click",()=>setPatternCatalog(el.dataset.catalog)));
+    document.querySelectorAll("[data-marble-mode]").forEach((el)=>el.addEventListener("click",()=>setMarbleMode(el.dataset.marbleMode)));
+    document.querySelectorAll("[data-marble-action]").forEach((el)=>el.addEventListener("click",()=>{if(el.dataset.marbleAction==="play"){syncMarbleNames();clickMarble("#btnPlayDraw")}if(el.dataset.marbleAction==="pause")clickMarble("#btnPauseDraw");if(el.dataset.marbleAction==="reset")clickMarble("#btnStopDraw");if(el.dataset.marbleAction==="shuffle"){syncMarbleNames();clickMarble("#btnShuffle")}}));
+    marbleNames.addEventListener("input",syncMarbleNames);
+    marbleMap.addEventListener("change",()=>setMarbleMap(marbleMap.value));
+    marbleRecording.addEventListener("click",()=>{const next=marbleRecording.getAttribute("aria-pressed")!=="true";setRecordingVisual(next);setMarbleRecording(next)});
+    window.addEventListener("message",(event)=>{if(event.data?.type==="lotto:recentNumbers")addRecentDraw(event.data.numbers||[])});
+    frame.addEventListener("load",tuneEmbeddedPage);
+    loadSavedPlays();
+    renderRecentDraws();
+    renderMatchStats();
+    renderPlayStats();
+    loadLottoHistory();
+    loadLatestResults();
+    setView(location.hash.replace("#","")||"home");
+  </script>
 </body>
 </html>

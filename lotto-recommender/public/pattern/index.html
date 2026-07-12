@@ -3,30 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Create lotto number shapes from historical patterns and zodiac silhouettes.">
+  <meta name="description" content="&#47196;&#46608; &#54056;&#53556;&#44284; &#48324;&#51088;&#47532; &#47784;&#50577;&#51012; &#48264;&#54840;&#54032;&#50640; &#48176;&#52824;&#54644;&#48372;&#45716; &#49828;&#53916;&#46356;&#50724;&#51077;&#45768;&#45796;.">
   <title>Lotto Pattern Studio</title>
   <link rel="stylesheet" href="../assets/css/base.css?v=20260711-service1">
-  <link rel="stylesheet" href="../assets/css/pattern.css?v=20260711-service1">
+  <link rel="stylesheet" href="../assets/css/pattern.css?v=20260712-selected-click1">
 </head>
 <body>
   <main class="shell">
     <header class="topbar">
       <a class="brand" href="../index.html">Lotto Studio</a>
       <nav class="nav" aria-label="main navigation">
-        <a class="active" href="./index.html">Pattern Studio</a>
-        <a href="../marble-roulette/index.html">Marble Roulette</a>
+        <a class="active" href="./index.html">&#54056;&#53556; &#49828;&#53916;&#46356;&#50724;</a>
+        <a href="../marble-roulette/index.html">&#47560;&#48660; &#47344;&#47131;</a>
       </nav>
     </header>
 
     <section class="hero">
       <div>
         <h1>Lotto Pattern Studio</h1>
-        <p class="lede">Load a lotto pattern or zodiac constellation, then drag the balls on the 1-45 board to create your own shape.</p>
+        <p class="lede">&#54056;&#53556; &#46608;&#45716; &#48264;&#54840;&#47484; &#49440;&#53469;&#54616;&#44256;, 1-45 &#48264;&#54840;&#54032; &#50948;&#50640; &#45208;&#47564;&#51032; &#45817;&#52392; &#51204;&#47029;&#51012; &#44536;&#47140;&#48372;&#49464;&#50836;.</p>
       </div>
       <div class="meta">
-        <div class="pill">Pattern draw</div>
-        <div class="pill">Drag edit</div>
-        <div class="pill">1-45 board</div>
+        <button class="catalog-switch primary" id="patternTab">&#54056;&#53556;</button>
+        <button class="catalog-switch" id="zodiacTab">&#48324;&#51088;&#47532;</button>
       </div>
     </section>
 
@@ -34,14 +33,14 @@
       <div class="panel">
         <div class="panel-head">
           <div>
-            <h2>Number Board</h2>
-            <p id="statusText">Select a pattern to place numbers.</p>
+            <h2>&#48264;&#54840;&#54032;</h2>
+            <p id="statusText">&#54056;&#53556;&#51012; &#49440;&#53469;&#54616;&#47732; &#48264;&#54840;&#44032; &#48176;&#52824;&#46121;&#45768;&#45796;.</p>
           </div>
-          <div class="actions">
-            <button class="ghost" id="shuffleBtn">Shuffle</button>
-            <button class="ghost" id="clearBtn">Clear</button>
-            <button class="primary" id="autoBtn">Random</button>
-          </div>
+        </div>
+        <div class="summary board-summary">
+          <h3 class="summary-title">&#49440;&#53469; &#48264;&#54840;</h3>
+          <div id="selectedNumbers" class="numbers"></div>
+          <p id="analysisText" class="small summary-text"></p>
         </div>
         <div id="board" class="board" aria-label="lotto number board"></div>
       </div>
@@ -49,26 +48,17 @@
       <aside class="panel side">
         <div class="panel-head">
           <div>
-            <h2 id="catalogTitle">10 Patterns</h2>
-            <p id="catalogDesc">Pattern cards based on previous winning rounds.</p>
-          </div>
-          <div class="actions">
-            <button class="ghost" id="patternTab">Pattern</button>
-            <button class="ghost" id="zodiacTab">Zodiac</button>
+            <h2 id="catalogTitle">&#52628;&#52380; &#54056;&#53556;</h2>
+            <p id="catalogDesc">AI가 이전 당첨번호 흐름을 참고해 뽑아낸 추천 패턴입니다.</p>
           </div>
         </div>
         <div class="side-body">
           <div id="patternGrid" class="pattern-grid"></div>
-          <div class="summary">
-            <h3 style="margin:0 0 10px;font-size:15px">Selected Numbers</h3>
-            <div id="selectedNumbers" class="numbers"></div>
-            <p id="analysisText" class="small" style="margin:10px 0 0"></p>
-          </div>
         </div>
       </aside>
     </section>
   </main>
 
-  <script src="../assets/js/pattern-bundle.js?v=20260711-service1"></script>
+  <script src="../assets/js/pattern-bundle.js?v=20260712-selected-click1"></script>
 </body>
 </html>

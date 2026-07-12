@@ -4,7 +4,8 @@ const defaultLocale: TranslatedLanguages = 'en';
 let locale: TranslatedLanguages | undefined;
 
 function getBrowserLocale() {
-  return navigator.language.split('-')[0];
+  // Keep the vendored roulette UI stable until we add our own Korean copy.
+  return defaultLocale;
 }
 
 function translateElement(element: Element) {
