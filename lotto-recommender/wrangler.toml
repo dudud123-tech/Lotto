@@ -2,9 +2,7 @@ name = "lotto-studio"
 compatibility_date = "2026-07-12"
 pages_build_output_dir = "public"
 
-# First deployment can run without D1. After creating the D1 database,
-# uncomment this block and replace database_id with the real UUID.
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "lotto-studio-db"
-# database_id = "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"
+[[d1_databases]]
+binding = "DB"
+database_name = "lotto-studio-db"
+database_id = "488d8cef-3b0b-4564-8a92-a4a27cdaeb66"

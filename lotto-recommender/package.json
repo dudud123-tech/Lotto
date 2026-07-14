@@ -7,7 +7,9 @@
     "build:d1-seed": "node tools/build-d1-seed.js",
     "cf:pages:dev": "wrangler pages dev public --compatibility-date=2026-07-12 --d1=DB=lotto-studio-db",
     "cf:d1:schema": "wrangler d1 execute lotto-studio-db --file=cloudflare/d1/schema.sql",
-    "cf:d1:seed": "wrangler d1 execute lotto-studio-db --file=cloudflare/d1/seed-lotto-draws.sql"
+    "cf:d1:seed": "wrangler d1 execute lotto-studio-db --file=cloudflare/d1/seed-lotto-draws.sql",
+    "cf:d1:schema:remote": "wrangler d1 execute lotto-studio-db --remote --file=cloudflare/d1/schema.sql",
+    "cf:d1:seed:remote": "wrangler d1 execute lotto-studio-db --remote --file=cloudflare/d1/seed-lotto-draws.sql"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"

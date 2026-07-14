@@ -1,4 +1,3 @@
-BEGIN TRANSACTION;
 DELETE FROM lotto_draws;
 INSERT INTO lotto_draws (round, draw_date, n1, n2, n3, n4, n5, n6, bonus) VALUES (1, NULL, 4, 6, 13, 17, 26, 28, 41);
 INSERT INTO lotto_draws (round, draw_date, n1, n2, n3, n4, n5, n6, bonus) VALUES (2, NULL, 8, 9, 19, 25, 41, 42, 33);
@@ -1231,4 +1230,3 @@ INSERT INTO lotto_draws (round, draw_date, n1, n2, n3, n4, n5, n6, bonus) VALUES
 INSERT INTO lotto_draws (round, draw_date, n1, n2, n3, n4, n5, n6, bonus) VALUES (1230, NULL, 3, 8, 9, 22, 28, 42, 45);
 INSERT INTO lotto_draws (round, draw_date, n1, n2, n3, n4, n5, n6, bonus) VALUES (1231, NULL, 4, 13, 14, 18, 31, 38, 15);
 INSERT INTO lotto_draws (round, draw_date, n1, n2, n3, n4, n5, n6, bonus) VALUES (1232, NULL, 12, 15, 19, 22, 24, 36, 3);
-COMMIT;

@@ -29,7 +29,6 @@ const rows = (data.results || []).map(normalizeDraw).sort((a, b) => a.round - b.
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
 const lines = [
-  "BEGIN TRANSACTION;",
   "DELETE FROM lotto_draws;",
 ];
 
@@ -45,7 +44,6 @@ for (const draw of rows) {
   );
 }
 
-lines.push("COMMIT;");
 lines.push("");
 
 fs.writeFileSync(outputPath, lines.join("\n"), "utf8");
