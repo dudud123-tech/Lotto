@@ -1,0 +1,13 @@
+name = "lotto-studio-sync"
+main = "worker.js"
+compatibility_date = "2026-07-12"
+
+[triggers]
+# Lotto 6/45 results are usually available after Saturday 20:35 KST.
+# Cloudflare cron uses UTC: 12:05/12:20/12:45 UTC = 21:05/21:20/21:45 KST.
+crons = ["5,20,45 12 * * 6"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "lotto-studio-db"
+database_id = "488d8cef-3b0b-4564-8a92-a4a27cdaeb66"
