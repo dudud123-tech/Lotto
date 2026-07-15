@@ -297,3 +297,75 @@
   65%{transform:scale(.9)}
   100%{transform:scale(1)}
 }
+
+@media screen and (max-width:750px){
+  #settings{
+    left:72px!important;
+    right:10px!important;
+    width:calc(100vw - 84px)!important;
+    max-width:calc(100vw - 84px)!important;
+    min-width:0!important;
+  }
+  #settings.is-compact{
+    width:0!important;
+    max-width:0!important;
+    height:0!important;
+    max-height:0!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    cursor:pointer!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    animation:none!important;
+    overflow:visible!important;
+  }
+  #settings.is-compact > :not(.mobile-settings-toggle){
+    opacity:1!important;
+    pointer-events:auto!important;
+    visibility:visible!important;
+  }
+  #settings.is-compact .mode-switch,
+  #settings.is-compact div.right,
+  #settings.is-compact .play-controls,
+  #settings.is-compact div.left{
+    display:none!important;
+  }
+  .mobile-settings-toggle{
+    display:grid!important;
+    place-items:center!important;
+    position:fixed!important;
+    top:.65rem!important;
+    left:.65rem!important;
+    z-index:1005!important;
+    width:54px!important;
+    height:54px!important;
+    min-width:54px!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:18px!important;
+    color:#fff!important;
+    background:linear-gradient(135deg,rgba(124,92,255,.97),rgba(219,77,181,.95))!important;
+    box-shadow:0 12px 28px rgba(76,29,149,.38),inset 0 0 0 1px rgba(255,255,255,.24)!important;
+    font-size:0!important;
+    line-height:1!important;
+    animation:settingsShrink .28s ease both!important;
+  }
+  .mobile-settings-toggle:before{
+    content:"?";
+    display:grid;
+    place-items:center;
+    width:38px;
+    height:38px;
+    border-radius:14px;
+    background:rgba(255,255,255,.16);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);
+    font-size:26px;
+    font-weight:900;
+  }
+  #settings:not(.is-compact) .mobile-settings-toggle{
+    left:.65rem!important;
+    right:auto!important;
+    background:linear-gradient(135deg,rgba(124,92,255,.97),rgba(219,77,181,.95))!important;
+  }
+}
