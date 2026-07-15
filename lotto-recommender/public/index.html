@@ -195,9 +195,13 @@
       if(isPattern)setPatternCatalog(activePatternCatalog);
       if(isMarble){setMarbleMode(doc.querySelector("#modeNormal")?.checked?"normal":"lotto");waitForMarbleOptions();waitForMarbleResultListener()}
     }catch(error){}}
+    function isMobilePageFlow(){return window.matchMedia("(max-width: 980px)").matches}
+    function mobilePageHref(view){if(view==="pattern")return"./pattern/index.html";if(view==="marble")return"./marble-roulette/index.html";return""}
+    function goView(view){const href=mobilePageHref(view);if(href&&isMobilePageFlow()){location.href=href;return}setView(view)}
     function setView(view){const next=viewMap[view]||viewMap.home;document.body.dataset.view=view;viewTitleAccent.textContent=next.title;viewLead.textContent=next.lead;patternModeActions.hidden=view!=="pattern";marbleDashboard.hidden=view!=="marble";mainFrameAd.hidden=view==="home";document.querySelectorAll("[data-view]").forEach((el)=>el.classList.toggle("active",el.dataset.view===view));if(view==="home"){homeView.classList.remove("hidden");frame.classList.remove("active");frame.removeAttribute("src")}else{homeView.classList.add("hidden");frame.classList.add("active");if(frame.getAttribute("src")!==next.src)frame.src=next.src}history.replaceState(null,"",`#${view}`)}
-    document.querySelectorAll("[data-view]").forEach((el)=>el.addEventListener("click",()=>setView(el.dataset.view)));
-    document.querySelectorAll(".home-link[data-view]").forEach((el)=>el.addEventListener("keydown",(event)=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();setView(el.dataset.view)}}));
+    document.querySelectorAll("[data-view]").forEach((el)=>el.addEventListener("click",()=>goView(el.dataset.view)));
+    document.querySelectorAll(".home-link[data-view]").forEach((el)=>el.addEventListener("click",()=>goView(el.dataset.view)));
+    document.querySelectorAll(".home-link[data-view]").forEach((el)=>el.addEventListener("keydown",(event)=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();goView(el.dataset.view)}}));
     document.querySelectorAll("[data-catalog]").forEach((el)=>el.addEventListener("click",()=>setPatternCatalog(el.dataset.catalog)));
     document.querySelectorAll("[data-marble-mode]").forEach((el)=>el.addEventListener("click",()=>setMarbleMode(el.dataset.marbleMode)));
     document.querySelectorAll("[data-marble-action]").forEach((el)=>el.addEventListener("click",()=>{if(el.dataset.marbleAction==="play"){syncMarbleNames();clickMarble("#btnPlayDraw")}if(el.dataset.marbleAction==="pause")clickMarble("#btnPauseDraw");if(el.dataset.marbleAction==="reset")clickMarble("#btnStopDraw");if(el.dataset.marbleAction==="shuffle"){syncMarbleNames();clickMarble("#btnShuffle")}}));
@@ -212,7 +216,7 @@
     renderPlayStats();
     loadLottoHistory();
     loadLatestResults();
-    setView(location.hash.replace("#","")||"home");
+    goView(location.hash.replace("#","")||"home");
   </script>
 </body>
 </html>
