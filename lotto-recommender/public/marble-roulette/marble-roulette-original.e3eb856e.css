@@ -300,10 +300,11 @@
 
 @media screen and (max-width:750px){
   #settings{
-    left:72px!important;
+    top:12px!important;
+    left:86px!important;
     right:10px!important;
-    width:calc(100vw - 84px)!important;
-    max-width:calc(100vw - 84px)!important;
+    width:calc(100vw - 98px)!important;
+    max-width:calc(100vw - 98px)!important;
     min-width:0!important;
   }
   #settings.is-compact{
@@ -335,8 +336,8 @@
     display:grid!important;
     place-items:center!important;
     position:fixed!important;
-    top:.65rem!important;
-    left:.65rem!important;
+    top:12px!important;
+    left:12px!important;
     z-index:1005!important;
     width:54px!important;
     height:54px!important;
@@ -364,7 +365,7 @@
     font-weight:900;
   }
   #settings:not(.is-compact) .mobile-settings-toggle{
-    left:.65rem!important;
+    left:12px!important;
     right:auto!important;
     background:linear-gradient(135deg,rgba(124,92,255,.97),rgba(219,77,181,.95))!important;
   }
