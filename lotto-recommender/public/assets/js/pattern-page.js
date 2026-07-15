@@ -113,7 +113,8 @@ function renderPatternCards() {
     card.addEventListener("click", () => applyPattern(index));
     patternGrid.appendChild(card);
     const preview = card.querySelector("svg");
-    drawMiniPatternCard(preview, pattern.numbers);
+    const useZodiacPreview = activeCatalog === "zodiac" && pattern.image && window.matchMedia("(hover: none)").matches;
+    drawMiniPatternCard(preview, pattern.numbers, useZodiacPreview ? { variant: "zodiac" } : {});
     if (activeCatalog === "zodiac" && pattern.image) {
       card.addEventListener("mouseenter", () => drawMiniPatternCard(preview, pattern.numbers, { variant: "zodiac" }));
       card.addEventListener("mouseleave", () => drawMiniPatternCard(preview, pattern.numbers));
