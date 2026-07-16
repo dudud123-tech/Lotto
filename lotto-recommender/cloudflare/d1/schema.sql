@@ -26,10 +26,12 @@ CREATE TABLE IF NOT EXISTS generated_tickets (
   n4 INTEGER NOT NULL,
   n5 INTEGER NOT NULL,
   n6 INTEGER NOT NULL,
+  target_round INTEGER,
   latest_checked_round INTEGER,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE INDEX IF NOT EXISTS idx_generated_tickets_target_round ON generated_tickets(target_round);
 CREATE INDEX IF NOT EXISTS idx_generated_tickets_created_at ON generated_tickets(created_at);
 CREATE INDEX IF NOT EXISTS idx_generated_tickets_source_type ON generated_tickets(source_type);
 
