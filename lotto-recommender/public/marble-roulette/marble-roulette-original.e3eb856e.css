@@ -12,6 +12,38 @@
   gap:10px 14px!important;
   transition:opacity .25s!important;
 }
+
+#settings button,
+#settings .btn,
+.play-controls button{
+  transition:transform .16s ease,box-shadow .16s ease,filter .16s ease,border-color .16s ease;
+}
+#settings button:hover,
+#settings .btn:hover,
+.play-controls button:hover{
+  transform:translateY(-2px);
+  filter:saturate(1.08) brightness(1.03);
+  box-shadow:0 12px 24px rgba(0,0,0,.22);
+}
+#settings button:active,
+#settings .btn:active,
+.play-controls button:active{
+  transform:translateY(1px) scale(.96);
+  filter:saturate(1.2) brightness(.96);
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.27),0 4px 10px rgba(0,0,0,.14);
+}
+#settings button img,
+.play-controls button img{
+  transition:transform .16s ease;
+}
+#settings button:hover img,
+.play-controls button:hover img{
+  transform:scale(1.08);
+}
+#settings #btnPlayDraw.is-playing{
+  background:#effcf7;
+  border-color:#b9ead2;
+}
 #settings.is-compact{
   opacity:.86!important;
   transform:none!important;
@@ -364,4 +396,8 @@
     font-size:26px;
     font-weight:900;
   }
+}
+
+#settings .play-controls #btnPlayDraw.is-playing{
+  background:linear-gradient(135deg,#fbbf24,#fde68a)!important;
 }
