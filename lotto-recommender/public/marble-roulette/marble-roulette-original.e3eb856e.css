@@ -447,8 +447,22 @@
   }
   #settings .mode-switch{
     order:1!important;
-    grid-template-columns:1fr 1fr auto!important;
+    grid-template-columns:92px 92px auto!important;
+    justify-content:start!important;
+    column-gap:6px!important;
     width:100%!important;
+  }
+  #settings .mode-switch label{
+    width:92px!important;
+    min-width:92px!important;
+  }
+  #settings .mode-switch label span{
+    width:100%!important;
+    justify-content:center!important;
+    text-align:center!important;
+  }
+  #settings .mode-switch strong{
+    margin-left:4px!important;
   }
   #settings div.right{
     order:2!important;
