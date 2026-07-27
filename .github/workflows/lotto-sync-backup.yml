@@ -1,0 +1,31 @@
+name: Lotto Sync Backup
+
+# Cloudflare Worker(lotto-studio-sync)의 토요일 크론(12:05/12:20/12:45 UTC)이
+# 실패하거나 실행되지 않는 경우를 대비한 백업 트리거.
+# Naver 결과는 보통 20:35 KST(11:35 UTC)에 나오므로 13:00 UTC(22:00 KST)면 충분히 늦은 시각.
+on:
+  schedule:
+    - cron: "0 13 * * 6"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger lotto-sync worker
+        run: |
+          set -e
+          response=$(curl -sS --retry 3 --retry-delay 60 --retry-all-errors \
+            -w "\n%{http_code}" \
+            "https://lotto-studio-sync.dndud123.workers.dev/?source=naver")
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          echo "$body"
+          if [ "$http_code" -ne 200 ]; then
+            echo "Sync request failed with HTTP $http_code"
+            exit 1
+          fi
+          if ! echo "$body" | grep -q '"status"'; then
+            echo "Unexpected response body (no status field)"
+            exit 1
+          fi
