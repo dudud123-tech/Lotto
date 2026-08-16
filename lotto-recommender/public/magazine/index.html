@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>매거진 | Lotto Studio</title>
+  <meta name="description" content="Lotto Studio 매거진 - 로또를 포함해 다양한 주제를 다루는 아티클 모음입니다.">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../assets/css/legal.css">
+  <link rel="stylesheet" href="../assets/css/magazine.css">
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span>Lotto Studio</span></a>
+      <a class="home-link" href="../index.html">홈으로</a>
+    </header>
+    <section class="hero">
+      <h1>매거진</h1>
+      <p class="lead">로또 통계부터 다양한 주제까지, 직접 쓴 아티클을 모아둔 공간입니다.</p>
+    </section>
+    <section class="content">
+      <div class="category-filters" id="categoryFilters" aria-label="카테고리 필터"></div>
+      <div id="articleGrid" class="article-grid"></div>
+      <p id="emptyState" class="magazine-empty" hidden>아직 등록된 글이 없습니다. 곧 첫 글을 준비 중입니다.</p>
+    </section>
+  </main>
+  <script>
+    const categoryFilters = document.getElementById("categoryFilters");
+    const articleGrid = document.getElementById("articleGrid");
+    const emptyState = document.getElementById("emptyState");
+    let allArticles = [];
+    let activeCategory = "all";
+
+    function renderFilters(){
+      const categories = ["all", ...new Set(allArticles.map((article) => article.category))];
+      categoryFilters.innerHTML = categories.map((category) => {
+        const label = category === "all" ? "전체" : category;
+        return `<button type="button" data-category="${category}" class="${category === activeCategory ? "active" : ""}">${label}</button>`;
+      }).join("");
+      categoryFilters.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeCategory = button.dataset.category;
+          renderFilters();
+          renderGrid();
+        });
+      });
+    }
+
+    function renderGrid(){
+      const filtered = activeCategory === "all" ? allArticles : allArticles.filter((article) => article.category === activeCategory);
+      if (!filtered.length) {
+        articleGrid.innerHTML = "";
+        emptyState.hidden = false;
+        return;
+      }
+      emptyState.hidden = true;
+      articleGrid.innerHTML = filtered.map((article) => `
+        <a class="article-card" href="./${article.slug}/">
+          <span class="tag tag-${article.category}">${article.category}</span>
+          <h3>${article.title}</h3>
+          <p>${article.description}</p>
+        </a>
+      `).join("");
+    }
+
+    async function loadArticles(){
+      try {
+        const res = await fetch("../data/magazine-articles.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("magazine list unavailable");
+        const data = await res.json();
+        allArticles = Array.isArray(data.articles) ? data.articles.slice().sort((a, b) => (b.date || "").localeCompare(a.date || "")) : [];
+      } catch (error) {
+        allArticles = [];
+      }
+      renderFilters();
+      renderGrid();
+    }
+
+    loadArticles();
+  </script>
+</body>
+</html>

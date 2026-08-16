@@ -1,0 +1,28 @@
+.magazine-header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:10px}
+.magazine-header h1{margin:0}
+.tag{display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:900;background:#eef0ff;color:#4652c8}
+.tag-로또{background:#fff3d6;color:#a15c00}
+.meta-line{display:flex;align-items:center;gap:10px;margin:10px 0 0;color:var(--muted);font-size:13px;font-weight:700}
+.meta-line .dot{width:3px;height:3px;border-radius:50%;background:var(--muted)}
+
+.category-filters{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 26px}
+.category-filters button{padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#475467;font-weight:800;font-size:13px;cursor:pointer}
+.category-filters button.active{color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent));border-color:transparent}
+
+.article-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.article-card{display:block;padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 10px 26px rgba(20,32,66,.06);text-decoration:none;color:inherit;transition:transform .16s ease,box-shadow .16s ease}
+.article-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(20,32,66,.10)}
+.article-card h3{margin:12px 0 8px;font-size:18px;color:var(--text)}
+.article-card p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+
+.magazine-empty{padding:40px 30px;border:1px dashed #cfd6e5;border-radius:16px;background:#fafcff;color:var(--muted);text-align:center}
+
+.article-body h2{margin:32px 0 10px;font-size:22px}
+.article-body h2:first-child{margin-top:0}
+.article-body p{margin:0 0 14px}
+.article-body ul,.article-body ol{padding-left:22px;margin:0 0 14px}
+.article-related{margin-top:8px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:#f8fbff}
+.article-related h2{margin:0 0 10px;font-size:16px}
+.article-related ul{margin:0;padding-left:20px}
+
+@media (max-width:640px){.magazine-header{flex-direction:column;align-items:flex-start}}
