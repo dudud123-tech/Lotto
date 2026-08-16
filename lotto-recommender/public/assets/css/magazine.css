@@ -2,6 +2,7 @@
 .magazine-header h1{margin:0}
 .tag{display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:900;background:#eef0ff;color:#4652c8}
 .tag-로또{background:#fff3d6;color:#a15c00}
+.tag-연예{background:#ffe3ee;color:#c22a72}
 .meta-line{display:flex;align-items:center;gap:10px;margin:10px 0 0;color:var(--muted);font-size:13px;font-weight:700}
 .meta-line .dot{width:3px;height:3px;border-radius:50%;background:var(--muted)}
 
